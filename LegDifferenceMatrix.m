@@ -1,5 +1,5 @@
    
-function [D, x]=DifferenceMatrix(N)
+function [D, x] = LegDifferenceMatrix(N)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %
     % DifferenceMatrix.m
