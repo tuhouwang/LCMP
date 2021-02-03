@@ -8,6 +8,7 @@ function [nmodes, kr, eigvector] = NumOfModes(Layers, w, kr, eigvector, cpmax)
     for i = 1 : Layers
         eigvector(i) = {eigvector{i}(:, mode)};
     end
+ 
     
     mode = find( imag(kr) >= 0 & imag(kr) < real(kr) );
     kr = kr(mode);
@@ -17,7 +18,6 @@ function [nmodes, kr, eigvector] = NumOfModes(Layers, w, kr, eigvector, cpmax)
     end
     
     nmodes = length( kr );
-
     if(nmodes == 0)
         error('Incorrect maximum phase speed input!');
     end
