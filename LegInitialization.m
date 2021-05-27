@@ -16,7 +16,7 @@ function [nr, r, rhozs, k, w] = LegInitialization(Layers, Ns, freq, rmax, ...
         end
     end
     
-    k   = cell(Layers,1);  
+    k   = cell(Layers, 1);  
     for i = 1 : Layers
         k(i) = {w ./ c{i} .* (1.0 + 1i * alpha{i} / (40.0 * pi * log10(exp(1.0))))};
     end

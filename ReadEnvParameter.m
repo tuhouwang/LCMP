@@ -25,13 +25,13 @@ function [casename,Layers, Ns, cpmax, freq, zs, zr, rmax, dr, interface, ...
     for i = 1 : Layers
         if (i < Layers && interface(i) > 0.0 && ...
             interface(i) < interface(i+1) && nprofile(i) >= 2)
-            Profile       = fscanf(fid, '%f %f', [4, nprofile(i)]);
+            Profile     = fscanf(fid, '%f %f', [4, nprofile(i)]);
             dep(i)      = {Profile(1, 1:nprofile(i))};
             c(i)        = {Profile(2, 1:nprofile(i))};
             rho(i)      = {Profile(3, 1:nprofile(i))};
             alpha(i)    = {Profile(4, 1:nprofile(i))};
         elseif(interface(i) > 0.0 && nprofile(i) >= 2)
-            Profile       = fscanf(fid, '%f %f', [4, nprofile(i)]);
+            Profile     = fscanf(fid, '%f %f', [4, nprofile(i)]);
             dep(i)      = {Profile(1, 1:nprofile(i))};
             c(i)        = {Profile(2, 1:nprofile(i))};
             rho(i)      = {Profile(3, 1:nprofile(i))};
