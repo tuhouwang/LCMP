@@ -1,9 +1,8 @@
 function [nmodes, kr, eigvector] = NumOfModes(Layers, w, kr, eigvector, cpmax)
 
-    cp     = w ./ real(kr);
-
+    cp   = w ./ real(kr);
     mode = find( cp <= cpmax );
-    kr = kr(mode);
+    kr   = kr(mode);
    
     for i = 1 : Layers
         eigvector(i) = {eigvector{i}(:, mode)};
@@ -11,7 +10,7 @@ function [nmodes, kr, eigvector] = NumOfModes(Layers, w, kr, eigvector, cpmax)
  
     
     mode = find( imag(kr) >= 0 & imag(kr) < real(kr) );
-    kr = kr(mode);
+    kr   = kr(mode);
 
     for i = 1 : Layers
         eigvector(i) = {eigvector{i}(:, mode)};

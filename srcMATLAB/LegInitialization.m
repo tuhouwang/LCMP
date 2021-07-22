@@ -1,17 +1,17 @@
 function [nr, r, rhozs, k, w] = LegInitialization(Layers, Ns, freq, rmax, ...
-            dr, zs, rho, dep, c, alpha, interface)
+                                       dr, zs, rho, dep, c, alpha, interface)
 
-    w       = 2 * pi * freq;
-    r       = dr : dr : rmax;
-    nr      = length(r);
+    w  = 2 * pi * freq;
+    r  = dr : dr : rmax;
+    nr = length(r);
 
     for i = 1 : Layers
         if( zs <= interface(i) )
             [x, ~, ~] = LGLnodes( Ns(i) );
-            z = ( ( dep{i}(1) + dep{i}(end) ) / ( dep{i}(end) ...
-            - dep{i}(1) ) - x ) * ( dep{i}(end) - dep{i}(1) ) / 2.0;
+            z = ( (dep{i}(1) + dep{i}(end) ) / ( dep{i}(end) - dep{i}(1)) ...
+                                     - x ) * (dep{i}(end) - dep{i}(1)) / 2.0;
         
-            rhozs  = interp1(z, rho{i}, zs, 'linear');
+            rhozs = interp1(z, rho{i}, zs, 'linear');
             break
         end
     end

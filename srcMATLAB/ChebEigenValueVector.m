@@ -2,16 +2,16 @@ function [kr, eigvector, z] = ChebEigenValueVector(Ns, Layers,...
     interface, dep, k, rho)
 
     Dsave = cell(Layers, 1);
-    U = zeros(sum(Ns+1), sum(Ns+1));
-    z = cell(Layers, 1);
+    U     = zeros(sum(Ns+1), sum(Ns+1));
+    z     = cell(Layers, 1);
     
     n = 1;
     for i = 1 : Layers
         [D, x] = ChebDifferenceMatrix(Ns(i));
         z(i) = {( ( dep{i}(1) + dep{i}(end) ) / ( dep{i}(end) - dep{i}(1) ) - x )...
-             * ( dep{i}(end) - dep{i}(1) ) / 2.0};
+                                               * ( dep{i}(end) - dep{i}(1) ) / 2.0};
         A = 4.0 / ( dep{i}(end) - dep{i}(1) ) ^ 2 * diag(rho{i}) * D ...
-             * diag(1 ./ rho{i}) * D + diag(k{i}.^ 2); 
+                               * diag(1 ./ rho{i}) * D + diag(k{i}.^ 2); 
         Dsave(i) = {D};       
         
         U(n:n+Ns(i)-2,     n:n+Ns(i)-2) = A(2:Ns(i), 2:Ns(i));
@@ -28,12 +28,12 @@ function [kr, eigvector, z] = ChebEigenValueVector(Ns, Layers,...
         U(sum(Ns-1)+2*i,   sum(Ns-1)+2*i+1)   = -1;
         
         if (i==1)
-            left  =  1 / rho{i}(end) / interface(i) .* Dsave{i}(end, :);
+            left = 1 / rho{i}(end) / interface(i) .* Dsave{i}(end, :);
         else
-            left  =  1 / rho{i}(end) / (interface(i+1)-interface(i)) .* Dsave{i}(end, :);       
+            left = 1 / rho{i}(end) / (interface(i+1)-interface(i)) .* Dsave{i}(end, :);       
         end
         
-        right = -1 / rho{i+1}(1) / (interface(i+1)-interface(i)) .* Dsave{i+1}(1, :);   
+        right   = -1 / rho{i+1}(1) / (interface(i+1)-interface(i)) .* Dsave{i+1}(1, :);   
         
         U(sum(Ns-1)+2*i+1,     n:n+Ns(i)-2)  = left(2:Ns(i));
         U(sum(Ns-1)+2*i+1, sum(Ns-1)+2*i-1)  = left(1);

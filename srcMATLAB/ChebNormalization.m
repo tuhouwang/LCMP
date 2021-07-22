@@ -13,8 +13,8 @@ function [psi, psizs, zl] = ChebNormalization(Layers, nmodes, eigvector, z, zs, 
     for k = 1 : nmodes
         norm = 0.0;
         for i = 1 : Layers 
-            f = eigvector{i}(:, k) .^ 2;
-            f = diag(1.0 ./ rho{i}) * f;
+            f    = eigvector{i}(:, k) .^ 2;
+            f    = diag(1.0 ./ rho{i}) * f;
             norm = norm + ChebGaussQuadrature(f) * (max(z{i}) - min(z{i})) / 2;
         end
         psi(:, k) = psi(:, k) ./ sqrt(norm);
