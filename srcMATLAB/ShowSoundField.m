@@ -12,7 +12,6 @@ function ShowSoundField(r, z, tl, tlmin, tlmax, casename, interface)
     caxis([tlmin tlmax]); 
     colormap(flipud(jet));
     shading flat; 
-    colorbar; 
     view(0, -90);
     xlabel('Range (km)'); 
     ylabel('Depth (m)');
