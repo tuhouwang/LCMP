@@ -1,20 +1,21 @@
 # MultiLC
-Applying the Legendre/Chebyshev collocation method based on domain decomposition for calculating underwater sound propagation in a horizontally stratified environment
+Applying the Legendre/Chebyshev collocation methods based on domain decomposition for calculating underwater sound propagation in a horizontally stratified environment
 
-**`MultiLC_readme`, Jul. 22, 2021, Houwang Tu, NUDT**
+**`MultiLC/MultiCC_readme`, Jul. 22, 2021, Houwang Tu, NUDT**
 
-The program `MultiLC.m` and `MultiCC.m` computes the range-independent modal acoustic field in
-Fig.1 using the Legendre collocation and Chebyshev collocation method, respectively. The Legendre 
+The programs `MultiLC.m` and `MultiCC.m` computes the range-independent modal acoustic field in
+Fig.1 using the Legendre and Chebyshev collocation method, respectively. The Legendre 
 collocation method is described in the article (H. Tu, Y. Wang, Q. Lan et al., Applying a Legendre 
 collocation method based on domain decomposition to calculate underwater sound propagation in a 
 horizontally stratified environment, https://doi.org/10.1016/j.jsv.2020.115784). Both of the programs
 use the same input file "`input.txt`", '`ReadEnvParameter`' function/subroutine is used
 to read "`input.txt`" file. User can make changes to "`input.txt`" for the desired calculation. 
-It is worth mentioning that the Fortran version of the program calls the subroutines '`zgeev()`' 
+
+It is worth mentioning that the Fortran version of the `MultiLC.m` calls the subroutines '`zgeev()`' 
 and '`zgesv()`' in the Lapack (a numerical library) to solve the eigenvalues of the complex matrix, 
 so the user needs to install the Lapack on the computer when running `MultiLC.f90`, and
 may need to make simple modifications to the Makefile. Both the Matlab
-and Fortran versions of the program will eventually generate the same
+and Fortran versions of `MultiLC.m` will eventually generate the same
 format of the binary sound field file "`tl.bin`", and the
 `plot_binary_tl.m` program can be used to read the sound field binary
 data and plot.
@@ -49,9 +50,9 @@ Example1                          ! casename
 
 The "`input.txt`" file include:
 
-*  `casename` is the name of current example,
+* `casename` is the name of current example,
 
-*  `Ns` is the number of layers,
+* `Ns` is the number of layers,
 
 * `N1` (the number to truncated order of 1st layer), 
 
