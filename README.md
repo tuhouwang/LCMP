@@ -1,7 +1,7 @@
 # MultiLC
 Applying the Legendre/Chebyshev collocation methods based on domain decomposition for calculating underwater sound propagation in a horizontally stratified environment
 
-**`MultiLC/MultiCC_readme`, Jul. 22, 2021, Houwang Tu, National University of Deffense Technology**
+**`MultiLC/MultiCC_readme`, Jul. 22, 2021, Houwang Tu, National University of Defense Technology**
 
 The programs `MultiLC.m` and `MultiCC.m` computes the range-independent modal acoustic field in
 Fig.1 using the Legendre and Chebyshev collocation method, respectively. The Legendre 
