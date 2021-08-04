@@ -4,12 +4,12 @@ Applying the Legendre/Chebyshev collocation methods based on domain decompositio
 **`MultiLC/MultiCC_readme`, Jul. 22, 2021, Houwang Tu, National University of Defense Technology**
 
 The programs `MultiLC.m` and `MultiCC.m` computes the range-independent modal acoustic field in
-Fig.1 using the Legendre and Chebyshev collocation method, respectively. The Legendre 
+Fig.1 using the Legendre and Chebyshev collocation methods, respectively. The Legendre 
 collocation method is described in the article (H. Tu, Y. Wang, Q. Lan et al., Applying a Legendre 
 collocation method based on domain decomposition to calculate underwater sound propagation in a 
 horizontally stratified environment, https://doi.org/10.1016/j.jsv.2021.116364). Both of the programs
-use the same input file "`input.txt`", '`ReadEnvParameter`' function/subroutine is used
-to read "`input.txt`" file. User can make changes to "`input.txt`" for the desired calculation. 
+use the same input file "`input.txt`". '`ReadEnvParameter`' function/subroutine is used
+to read "`input.txt`" file. Users can make changes to "`input.txt`" for the desired calculation. 
 
 It is worth mentioning that the Fortran version of the `MultiLC.m` calls the subroutines '`zgeev()`' 
 and '`zgesv()`' in the Lapack (a numerical library) to solve the eigenvalues of the complex matrix, 
@@ -85,13 +85,13 @@ The "`input.txt`" file include:
 * `dz` (discrete step size in depth direction, m),
 
 * `tlmin`
-  and `tlmax` are the minmum and maximum value transmission loss,
+  and `tlmax` are the minmum and maximum value of transmission loss,
   respectively, which used to determine the color range of the output
   transmission loss graph, `tlmin` must less than `tlmax`.
 
 * `n1` and `n2` are the amount of environmental profile data in the two layers. 
 
-  There are Ns tables of environmental parameter, the units are depth(m), speed(m/s),
+  There are `Ns` tables of environmental parameter, the units are depth(m), speed(m/s),
   density(g/cm$^3$) and attenuation (dB/wavelength), with `n1` and `n2`
   points in each. It is necessary that `dep1(n1)=dep2(1)` where the
   density usually has a discontinuity. The first entry `dep1(1)=0` is the
