@@ -7,7 +7,7 @@ The programs `MultiLC.m` and `MultiCC.m` computes the range-independent modal ac
 Fig.1 using the Legendre and Chebyshev collocation method, respectively. The Legendre 
 collocation method is described in the article (H. Tu, Y. Wang, Q. Lan et al., Applying a Legendre 
 collocation method based on domain decomposition to calculate underwater sound propagation in a 
-horizontally stratified environment, https://doi.org/10.1016/j.jsv.2020.115784). Both of the programs
+horizontally stratified environment, https://doi.org/10.1016/j.jsv.2021.116364). Both of the programs
 use the same input file "`input.txt`", '`ReadEnvParameter`' function/subroutine is used
 to read "`input.txt`" file. User can make changes to "`input.txt`" for the desired calculation. 
 
