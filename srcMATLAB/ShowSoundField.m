@@ -5,7 +5,7 @@ function ShowSoundField(r, z, tl, tlmin, tlmax, casename, interface)
     figure; hold on;    
     pcolor( r , z, tl); 
     for i = 1 : length(interface) - 1
-        plot(r, interface(i) * ones(length(r)), 'k--', 'Linewidth', 1.5);
+        plot([0, max(r)], [interface(i), interface(i)], 'k--', 'Linewidth', 1.5);
     end
     
     title(casename);
