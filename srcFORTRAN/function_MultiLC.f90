@@ -408,7 +408,7 @@ end function
 function diagcomplex(rho)
     implicit none
     complex(rkind),intent(in) ::rho(:)
-    real   (rkind)            ::diagcomplex(size(rho),size(rho))
+    complex(rkind)            ::diagcomplex(size(rho),size(rho))
 	integer(rkind)            ::i
 	diagcomplex = 0.0_rkind
 	forall(i=1:size(rho)) diagcomplex(i,i)=rho(i)
