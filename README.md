@@ -11,10 +11,10 @@ horizontally stratified environment, https://doi.org/10.1016/j.jsv.2021.116364).
 use the same input file "`input.txt`". '`ReadEnvParameter`' function/subroutine is used
 to read "`input.txt`" file. Users can make changes to "`input.txt`" for the desired calculation. 
 It is worth mentioning that the Fortran version of the `MultiLC.m` calls the subroutines '`zgeev()`' 
-and '`zgesv()`' in the Lapack (a numerical library) to solve the eigenvalues of the complex matrix.
-Both the Matlab and Fortran versions of `MultiLC.m` will eventually generate the same
-format of the binary sound field file "`tl.bin`", and the `plot_binary_tl.m` program can be used to 
-read the sound field binary data and plot.
+and '`zgesv()`' in the Lapack (a numerical library) to solve the eigenvalues of the complex matrix and 
+complex linear equations. Both the Matlab and Fortran versions of `MultiLC.m` will eventually generate 
+the same format of the binary sound field file "`tl.bin`", and the `plot_binary_tl.m` program can be 
+used to read the sound field binary data and plot.
 
 The "`input.txt`" file contains the parameters defining the modal
 calculation. See the following example:
