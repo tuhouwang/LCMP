@@ -1,19 +1,12 @@
 .PHONY: clean all
 
-FC = gfortran
-
-OBJS = function_MultiLC.o MultiLC.o complex_bessel.o
-
-target = MultiLC.exe
-
-$(target): $(OBJS)
-	$(FC) $(OBJS) liblapack.a librefblas.a -o $@
-
-%.o: %.f90
-	$(FC) -c $< -o $@
-	
-complex_bessel.o: complex_bessel.f
-	$(FC) -c $< -o $@
+all:
+	(cd lapack-3.10.0;	make)
+	(cd srcMultiLC;     make)
     
 clean:
-	-rm -rf *.o *.mod *.exe tl.bin a.out
+	-rm -rf *.exe tl.bin
+
+cleanall:
+	(cd lapack-3.10.0;	make clean)
+	(cd srcMultiLC;	    make clean)  
