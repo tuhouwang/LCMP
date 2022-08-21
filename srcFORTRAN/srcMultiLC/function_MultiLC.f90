@@ -31,14 +31,25 @@ subroutine ReadEnvParameter(casename,Layers,Ns,cpmax,freq,zs,zr,rmax,dr,dz,&
 						tlmin,tlmax,hi,data_file,dep,c,rho,alpha)
 					
 	implicit none
-	character(len=MAX_FILENAME_LEN),intent(out) ::casename,data_file	
-	integer(rkind),                 intent(out) ::Layers
-	real   (rkind),                 intent(out) ::cpmax,freq,zs,zr,rmax,dr,dz,tlmin,tlmax
-	integer(rkind),   allocatable,  intent(out) ::Ns(:)
-	real   (rkind),   allocatable,  intent(out) ::hi(:)
-	real   (rkind),dimension(LL,CC),intent(out) ::dep,c,rho,alpha
-	integer(rkind),   allocatable			    ::nprofile(:)
-	integer(rkind)                              ::i,j
+	character(len=MAX_FILENAME_LEN), intent(out) :: casename,data_file	
+	integer(rkind),                  intent(out) :: Layers
+	real   (rkind),                  intent(out) :: cpmax
+	real   (rkind),                  intent(out) :: freq
+	real   (rkind),                  intent(out) :: zs
+ 	real   (rkind),                  intent(out) :: zr
+	real   (rkind),                  intent(out) :: rmax
+	real   (rkind),                  intent(out) :: dr
+ 	real   (rkind),                  intent(out) :: dz
+	real   (rkind),                  intent(out) :: tlmin
+	real   (rkind),                  intent(out) :: tlmax     
+	integer(rkind),     allocatable, intent(out) :: Ns(:)
+	real   (rkind),     allocatable, intent(out) :: hi(:)
+	real   (rkind),dimension(LL,CC), intent(out) :: dep
+	real   (rkind),dimension(LL,CC), intent(out) :: c
+	real   (rkind),dimension(LL,CC), intent(out) :: rho
+	real   (rkind),dimension(LL,CC), intent(out) :: alpha    
+	integer(rkind),     allocatable	 		     :: nprofile(:)
+	integer(rkind)                               :: i,j
 	dep   = 0.0_rkind
 	c     = 0.0_rkind
 	rho   = 0.0_rkind
@@ -121,10 +132,17 @@ end subroutine
 
 subroutine Interpolation(m,dep,c,rho,alpha,N)
     implicit none
-    integer(rkind),intent(in)   ::N,m
-    real   (rkind),intent(inout)::dep(N+1),c(N+1),rho(N+1),alpha(N+1)
-    real   (rkind)              ::x(N+1),z(N+1),b2(N+1),c2(N+1),d2(N+1)
-    integer(rkind)              ::i,j
+    integer(rkind), intent(in)    :: N,m
+    real   (rkind), intent(inout) :: dep(N+1)
+    real   (rkind), intent(inout) :: c(N+1)
+    real   (rkind), intent(inout) :: rho(N+1)
+    real   (rkind), intent(inout) :: alpha(N+1)
+    real   (rkind)                :: x(N+1)
+    real   (rkind)                :: z(N+1)
+    real   (rkind)                :: b2(N+1)
+    real   (rkind)                :: c2(N+1)
+    real   (rkind)                :: d2(N+1)    
+    integer(rkind)                :: i,j
 	
 	x = LGLnodes(N)
     do i=1, N+1
@@ -167,10 +185,11 @@ end subroutine Interpolation
 
 function LGLnodes(N)
     implicit none
-    integer(rkind),intent(in)   ::N
-    real   (rkind)              ::LGLnodes(N+1)
-	real   (rkind)              ::P(N+1,N+1),xold(N+1)
-	integer(rkind)              ::j,k
+    integer(rkind),intent(in)   :: N
+    real   (rkind)              :: LGLnodes(N+1)
+	real   (rkind)              :: P(N+1,N+1)
+	real   (rkind)              :: xold(N+1)
+	integer(rkind)              :: j,k
 	
 	P = 0.0_rkind
 	do j=1, N + 1
@@ -200,14 +219,22 @@ end function
 
 subroutine LegInitialization(freq,rmax,dr,nr,r,zs,rhozs,hi,ki,Layers,Ns,dep,c,rho,alpha)
     implicit none
-    integer(rkind),intent(in)   ::Layers, Ns(:)
-    integer(rkind),intent(out)  ::nr	
-    real   (rkind),intent(in)   ::dep(LL,CC), c(LL,CC), rho(LL,CC), alpha(LL,CC)
-    real   (rkind),intent(in)   ::freq,rmax,dr,zs,hi(:)
-    real   (rkind),allocatable  ::r(:)
-    real   (rkind),intent(out)  ::rhozs
-    complex(rkind),intent(out)  ::ki(LL,CC)
-    integer(rkind)              ::i, j
+    integer(rkind), intent(in)   :: Layers
+    integer(rkind), intent(in)   :: Ns(:)
+    integer(rkind), intent(out)  :: nr	
+    real   (rkind), intent(in)   :: dep(LL,CC)
+    real   (rkind), intent(in)   :: c(LL,CC)
+    real   (rkind), intent(in)   :: rho(LL,CC)
+    real   (rkind), intent(in)   :: alpha(LL,CC)
+    real   (rkind), intent(in)   :: freq
+    real   (rkind), intent(in)   :: rmax
+    real   (rkind), intent(in)   :: dr
+    real   (rkind), intent(in)   :: zs
+    real   (rkind), intent(in)   :: hi(:)
+    real   (rkind), allocatable  :: r(:)
+    real   (rkind), intent(out)  :: rhozs
+    complex(rkind), intent(out)  :: ki(LL,CC)
+    integer(rkind)               :: i, j
 	
 	nr = int(rmax / dr)
 	allocate(r(nr))
@@ -238,10 +265,11 @@ end subroutine
 
 function Interpolation_zs_R(z,zs,v)
 	implicit none
-	real   (rkind),intent(in) ::z(:),zs
-	real   (rkind),intent(in) ::v(:)
-	real   (rkind)            ::Interpolation_zs_R
-	integer(rkind)            ::j
+	real   (rkind), intent(in) :: z(:)
+    real   (rkind), intent(in) :: zs
+	real   (rkind), intent(in) :: v(:)
+	real   (rkind)             :: Interpolation_zs_R
+	integer(rkind)             :: j
     Interpolation_zs_R = 0.0_rkind
 
 	if(zs>z(size(z)) .or. zs < z(1)) then
@@ -262,10 +290,11 @@ end function
 
 function Interpolation_zs_C(z,zs,v)
 	implicit none
-	real   (rkind),intent(in) ::z(:),zs
-	complex(rkind),intent(in) ::v(:)
-	complex(rkind)            ::Interpolation_zs_C
-	integer(rkind)            ::j
+	real   (rkind), intent(in) :: z(:)
+    real   (rkind), intent(in) :: zs
+	complex(rkind), intent(in) :: v(:)
+	complex(rkind)             :: Interpolation_zs_C
+	integer(rkind)             :: j
     Interpolation_zs_C = 0.0_rkind
 
 	if(zs>z(size(z)) .or. zs < z(1)) then
@@ -286,19 +315,35 @@ end function
 
 subroutine LegEigenValueVector(Ns,Layers,hi,dep,rho,ki,kr,eigvector)
     implicit none
-    integer(rkind),intent(in)   ::Layers, Ns(:)
-    real   (rkind),intent(in)   ::hi(:)	
-    real   (rkind),intent(in)   ::dep(LL,CC), rho(LL,CC)
-    complex(rkind),intent(out)  ::ki(LL,CC)
-	complex(rkind),allocatable  ::kr(:),A(:,:),U(:,:),left(:),right(:),eigvector(:,:)
-	complex(rkind),allocatable  ::L11(:,:),L12(:,:),L21(:,:),L22(:,:),L(:,:),v2(:,:)
-	real   (rkind),allocatable  ::D(:,:),D1(:,:)
-    integer(rkind)              ::i,n
+    integer(rkind), intent(in)  :: Layers
+    integer(rkind), intent(in)  :: Ns(:)
+    real   (rkind), intent(in)  :: hi(:)	
+    real   (rkind), intent(in)  :: dep(LL,CC)
+    real   (rkind), intent(in)  :: rho(LL,CC)    
+    complex(rkind), intent(out) :: ki(LL,CC)
+	complex(rkind), allocatable :: kr(:)
+	complex(rkind), allocatable :: A(:,:)
+	complex(rkind), allocatable :: U(:,:)
+	complex(rkind), allocatable :: left(:)
+	complex(rkind), allocatable :: right(:)
+	complex(rkind), allocatable :: eigvector(:,:)
+	complex(rkind), allocatable :: L11(:,:)
+	complex(rkind), allocatable :: L12(:,:)
+	complex(rkind), allocatable :: L21(:,:)
+	complex(rkind), allocatable :: L22(:,:)
+	complex(rkind), allocatable :: L(:,:)
+	complex(rkind), allocatable :: v2(:,:)    
+	real   (rkind), allocatable :: D(:,:)
+	real   (rkind), allocatable :: D1(:,:)    
+    integer(rkind)              :: i,n
 	
 	!------------for zgeev and zgesv--------------------------------
-	integer        ::info,j(1),IPIV(2*size(Ns))
-	complex(rkind) ::VL(sum(Ns-1)),VR(sum(Ns-1),sum(Ns-1)),WORK(2*sum(Ns-1))
-	real(rkind)    ::RWORK(2*sum(Ns-1))
+	integer        :: info
+    integer        :: j(1)
+    integer        :: IPIV(2*size(Ns))
+	complex(rkind) :: VL(sum(Ns-1))
+	complex(rkind) :: VR(sum(Ns-1),sum(Ns-1)),WORK(2*sum(Ns-1))
+	real(rkind)    :: RWORK(2*sum(Ns-1))
 	!-----------------------------------------------------	
 	
 	allocate(U(sum(Ns+1),sum(Ns+1)))
@@ -397,9 +442,9 @@ end subroutine
 
 function diagreal(rho)
     implicit none
-    real   (rkind),intent(in) ::rho(:)
-    real   (rkind)            ::diagreal(size(rho),size(rho))
-	integer(rkind)            ::i
+    real   (rkind), intent(in) :: rho(:)
+    real   (rkind)             :: diagreal(size(rho),size(rho))
+	integer(rkind)             :: i
 	diagreal = 0.0_rkind
 	forall(i=1:size(rho)) diagreal(i,i)=rho(i)
 	
@@ -407,9 +452,9 @@ end function
 
 function diagcomplex(rho)
     implicit none
-    complex(rkind),intent(in) ::rho(:)
-    complex(rkind)            ::diagcomplex(size(rho),size(rho))
-	integer(rkind)            ::i
+    complex(rkind), intent(in) :: rho(:)
+    complex(rkind)             :: diagcomplex(size(rho),size(rho))
+	integer(rkind)             :: i
 	diagcomplex = 0.0_rkind
 	forall(i=1:size(rho)) diagcomplex(i,i)=rho(i)
 	
@@ -417,10 +462,10 @@ end function
 
 function LegDifferenceMatrix(N)
     implicit none
-    integer(rkind),intent(in)   ::N
-    real   (rkind)				::LegDifferenceMatrix(N+1,N+1)
-    real   (rkind)              ::x(N+1),L(N+1,N+1)	
-    integer(rkind)              ::j,k
+    integer(rkind), intent(in) ::N
+    real   (rkind)			   ::LegDifferenceMatrix(N+1,N+1)
+    real   (rkind)             ::x(N+1),L(N+1,N+1)	
+    integer(rkind)             ::j,k
 	
 	x = LGLnodes(N)
     L = legpoly(N, x)
@@ -442,10 +487,10 @@ end function
 
 function legpoly(N, x)
     implicit none
-    integer(rkind),intent(in)   ::N
-    real   (rkind),intent(in)   ::x(:)
-	real   (rkind)              ::legpoly(size(x),N+1)	
-    integer(rkind)              ::j,k
+    integer(rkind), intent(in) :: N
+    real   (rkind), intent(in) :: x(:)
+	real   (rkind)             :: legpoly(size(x),N+1)	
+    integer(rkind)             :: j,k
 	
 	legpoly = 0.0_rkind
 	
@@ -463,12 +508,14 @@ end function
 
 subroutine NumOfModes(Layers,freq,cpmax,kr,eigvector,nmodes)
     implicit none
-    integer(rkind),intent(in)   ::Layers
-    integer(rkind),intent(inout)::nmodes	
-    real   (rkind),intent(in)   ::freq,cpmax
-	real   (rkind),allocatable  ::cp(:)
-    complex(rkind),intent(inout)::kr(:),eigvector(:,:)
-    integer(rkind)              ::i
+    integer(rkind), intent(in)    :: Layers
+    integer(rkind), intent(inout) :: nmodes	
+    real   (rkind), intent(in)    :: freq
+    real   (rkind), intent(in)    :: cpmax
+	real   (rkind), allocatable   :: cp(:)
+    complex(rkind), intent(inout) :: kr(:)
+    complex(rkind), intent(inout) :: eigvector(:,:)
+    integer(rkind)                :: i
 	
 	allocate(cp(size(kr)))
 	cp = 2 * pi * freq / real(kr)
@@ -489,13 +536,19 @@ end subroutine
 
 subroutine LegNormalization(Layers,nmodes,eigvector,Ns,rho,dep,z,psi,zs,psizs)
     implicit none
-    integer(rkind),intent(in)   ::Layers,nmodes,Ns(:)
-	real   (rkind),intent(in)   ::rho(LL,CC),dep(LL,CC),zs
-	real   (rkind),allocatable  ::z(:)
-    complex(rkind),intent(inout)::eigvector(:,:)
-	complex(rkind),allocatable  ::psi(:,:),psizs(:),f(:)
-	real   (rkind)              ::norm
-    integer(rkind)              ::i,j,k
+    integer(rkind), intent(in)    :: Layers
+    integer(rkind), intent(in)    :: nmodes
+    integer(rkind), intent(in)    :: Ns(:)
+	real   (rkind), intent(in)    :: rho(LL,CC)
+	real   (rkind), intent(in)    :: dep(LL,CC)
+ 	real   (rkind), intent(in)    :: zs   
+	real   (rkind), allocatable   :: z(:)
+    complex(rkind), intent(inout) :: eigvector(:,:)
+	complex(rkind), allocatable   :: psi(:,:)
+	complex(rkind), allocatable   :: psizs(:)
+	complex(rkind), allocatable   :: f(:)    
+	real   (rkind)                :: norm
+    integer(rkind)                :: i,j,k
 	
 	allocate(z(sum(Ns)+1),psi(sum(Ns)+1,nmodes),psizs(nmodes))
 	
@@ -527,10 +580,10 @@ end subroutine
 
 function LGLQuadrature(f)
     implicit none
-    complex(rkind),intent(in)   ::f(:)
-	complex(rkind)              ::LGLQuadrature
-	real   (rkind),allocatable  ::w(:)
-	integer(rkind)              ::j,k
+    complex(rkind), intent(in)   :: f(:)
+	complex(rkind)               :: LGLQuadrature
+	real   (rkind), allocatable  :: w(:)
+	integer(rkind)               :: j,k
 	k = size(f)
 	allocate(w(k))
 	w = LGLweights(k-1)
@@ -544,9 +597,12 @@ end function
 
 function LGLweights(N)
     implicit none
-    integer(rkind),intent(in)   ::N
-    real   (rkind)              ::x(N+1),LGLweights(N+1),P(N+1,N+1),xold(N+1)
-	integer                     ::j,k
+    integer(rkind), intent(in) :: N
+    real   (rkind)             :: x(N+1)
+    real   (rkind)             :: LGLweights(N+1)
+    real   (rkind)             :: P(N+1,N+1)
+    real   (rkind)             :: xold(N+1)    
+	integer                    :: j,k
 	
 	P = 0.0_rkind
 	do j = 1, N + 1
@@ -578,14 +634,22 @@ end function
 
 subroutine SynthesizeSoundField(nmodes,nr,r,kr,z,psizs,rhozs,psi,tl)
 	implicit none
-	integer(rkind),intent(in) ::nmodes,nr
-	real   (rkind),intent(in) ::r(nr),z(:),rhozs
-	complex(rkind),intent(in) ::kr(:),psizs(nmodes),psi(:,:)
-	real   (rkind),intent(out),allocatable ::tl(:,:)
-	complex(rkind) :: p(size(z),nr), bessel(nmodes,nr)
-	integer        :: IERR1,IERR2  
-	real   (rkind) :: CYR,CYI
-	integer(rkind) :: i,k
+	integer(rkind), intent(in) :: nmodes
+	integer(rkind), intent(in) :: nr    
+	real   (rkind), intent(in) :: r(nr)
+	real   (rkind), intent(in) :: z(:)
+	real   (rkind), intent(in) :: rhozs    
+	complex(rkind), intent(in) :: kr(:)
+	complex(rkind), intent(in) :: psizs(nmodes)
+	complex(rkind), intent(in) :: psi(:,:)    
+	real   (rkind), intent(out),allocatable ::tl(:,:)
+	complex(rkind)             :: p(size(z),nr)
+	complex(rkind)             :: bessel(nmodes,nr)
+	integer                    :: IERR1
+	integer                    :: IERR2     
+	real   (rkind)             :: CYR
+	real   (rkind)             :: CYI    
+	integer(rkind)             :: i,k
 	
 	
     allocate(tl(size(z),nr))
@@ -604,8 +668,12 @@ end subroutine
 
 subroutine SaveSoundField(filename,tlmin,tlmax,r,z,tl)
 	implicit none
-	character(len=MAX_FILENAME_LEN),intent(in)::filename
-	real(rkind),                    intent(in)::tlmin,tlmax,r(:),z(:),tl(:,:)
+	character(len=MAX_FILENAME_LEN), intent(in) :: filename
+	real(rkind),                     intent(in) :: tlmin
+	real(rkind),                     intent(in) :: tlmax
+	real(rkind),                     intent(in) :: r(:)
+	real(rkind),                     intent(in) :: z(:)
+	real(rkind),                     intent(in) :: tl(:,:)    
 
     open(unit=2,status='unknown',file=filename,access='stream',form='unformatted')
        

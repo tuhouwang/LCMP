@@ -36,7 +36,7 @@ program MultiLC
 	external zgeev
 	!-------------------------------------------------------------
 	! Declare the variable needed later.
-	character(len=MAX_FILENAME_LEN)  :: data_file = "input.txt"
+	character(len=MAX_FILENAME_LEN)  :: data_file = 'input.txt'
 	character(len=MAX_FILENAME_LEN)  :: filename  = 'tl.bin'
 	character(len=MAX_FILENAME_LEN)  :: casename
 	integer(rkind)                   :: nr
@@ -45,15 +45,25 @@ program MultiLC
 	integer(rkind),allocatable       :: Ns(:)
 	real(rkind)                      :: cpmax
 	real(rkind)                      :: freq
-	real(rkind)                      :: zs,zr,dz
-	real(rkind)                      :: rmax,dr
+	real(rkind)                      :: zs
+    real(rkind)                      :: zr
+	real(rkind)                      :: dz    
+	real(rkind)                      :: rmax
+	real(rkind)                      :: dr    
 	real(rkind)                      :: tlmin,tlmax
 	real(rkind)                      :: rhozs	
-	real(rkind),   allocatable,dimension(:)   :: hi,r,z
+	real(rkind),   allocatable,dimension(:)   :: hi
+	real(rkind),   allocatable,dimension(:)   :: r
+ 	real(rkind),   allocatable,dimension(:)   :: z
 	real(rkind),   allocatable,dimension(:,:) :: tl
-	complex(rkind),allocatable,dimension(:)   :: kr,psizs
-	complex(rkind),allocatable,dimension(:,:) :: eigvector,psi
-	real(rkind),   dimension(LL,CC)           :: dep,c,rho,alpha
+	complex(rkind),allocatable,dimension(:)   :: kr
+	complex(rkind),allocatable,dimension(:)   :: psizs    
+	complex(rkind),allocatable,dimension(:,:) :: eigvector
+	complex(rkind),allocatable,dimension(:,:) :: psi
+	real(rkind),   dimension(LL,CC)           :: dep    
+	real(rkind),   dimension(LL,CC)           :: c
+	real(rkind),   dimension(LL,CC)           :: rho   
+	real(rkind),   dimension(LL,CC)           :: alpha    
 	complex(rkind),dimension(LL,CC)           :: ki
 	  
 	call ReadEnvParameter(casename,Layers,Ns,cpmax,freq,zs,zr,rmax,dr,dz,&
